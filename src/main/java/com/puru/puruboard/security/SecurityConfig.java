@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -61,16 +60,24 @@ public class SecurityConfig {
             
             .and()
             .formLogin()
+            .loginPage("/user/login")
+            .usernameParameter("email")
+            .loginProcessingUrl("/user/login")
             .defaultSuccessUrl("/", true)
             .permitAll()
             
             .and()
             .logout()
+            .logoutUrl("/user/logout")
+            .logoutSuccessUrl("/")
             .deleteCookies("remember-me")
             
-            .and()
-            .rememberMe()
-            .userDetailsService(userDetailsService)
+            // remember-me 쿠키에 대해서는 현재 CustomUserDetailsService의 loadUserByUsername 메서드의 매개변수인
+            // 이메일 값이 com.puru.puruboard.domain.User@6f16fa98 등의 Object의 toString 값으로 반환되는 이슈가 있으므로
+            // 추후 해결 가능할 때 재설정하도록 한다.
+//            .and()
+//            .rememberMe()
+//            .userDetailsService(userDetailsService)
             
             .and()
             .build();
