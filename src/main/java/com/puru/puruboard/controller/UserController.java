@@ -4,8 +4,11 @@ import com.puru.puruboard.domain.User;
 import com.puru.puruboard.dto.CreateUserDto;
 import com.puru.puruboard.dto.UserInfo;
 import com.puru.puruboard.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,15 +45,9 @@ public class UserController {
     }
     
     // 로그인 폼
-//    @GetMapping("/login")
-//    public String loginForm() {
-//        return "/login";
-//    }
-    
-    // 로그인
-    @PostMapping("/login")
-    public String loginSuccess() {
-        return "redirect:/";
+    @GetMapping("/login")
+    public String loginForm() {
+        return "user/login";
     }
     
     // 마이 페이지
