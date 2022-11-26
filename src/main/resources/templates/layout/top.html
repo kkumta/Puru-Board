@@ -2,20 +2,41 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
   <div th:fragment="header">
-    <nav class="navbar navbar-dark sticky-top bg-dark ">
+    <nav class="navbar navbar-dark sticky-top" style="background-color: #072c5f;">
       <div class="container">
-        <a class="text-light" href="/"><h4>Puru Board</h4></a>
+        <a class="text-light text-decoration-none" href="/"><h4>Puru Board</h4></a>
         <ul class="nav justify-content-end">
-          <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link text-light" sec:authentication="principal.nickname"></a></li>
-          <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link text-light"
-                                                                    th:href="@{/user/info} ">마이페이지</a>
+          <li class="nav-item" sec:authorize="isAuthenticated()">
+            <button class="btn text-info disabled" style="background-color: transparent;"
+                    sec:authentication="principal.nickname"></button>
           </li>
-          <li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link text-light"
-                                                                th:href="@{/login}">로그인</a></li>
-          <li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link text-light"
-                                                                th:href="@{/user}">회원가입</a></li>
-          <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link text-light"
-                                                                    th:href="@{/logout}">로그아웃</a>
+          <li class="nav-item" sec:authorize="isAuthenticated()">
+            <form th:action="@{/user/info}" method="GET">
+              <button class="btn text-light" style="background-color: transparent;" type="submit">
+                마이페이지
+              </button>
+            </form>
+          </li>
+          <li class="nav-item" sec:authorize="isAnonymous()">
+            <form th:action="@{/user/login}" method="POST">
+              <button class="btn text-light" style="background-color: transparent;" type="submit">
+                로그인
+              </button>
+            </form>
+          </li>
+          <li class="nav-item" sec:authorize="isAnonymous()">
+            <form th:action="@{/user}" method="GET">
+              <button class="btn text-light" style="background-color: transparent;" type="submit">
+                회원가입
+              </button>
+            </form>
+          </li>
+          <li class="nav-item" sec:authorize="isAuthenticated()">
+            <form th:action="@{/user/logout}" method="POST">
+              <button class="btn text-light" style="background-color: transparent;" type="submit">
+                로그아웃
+              </button>
+            </form>
           </li>
         </ul>
       </div>
