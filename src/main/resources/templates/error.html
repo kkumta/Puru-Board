@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout/header::head">
+    <title>Error</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  </head>
+  <body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+    에러가 발생했습니다.
+    <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+    <a href="home.html" th:href="@{/}">시작 화면으로 돌아가기</a>
+  </body>
+</html>
