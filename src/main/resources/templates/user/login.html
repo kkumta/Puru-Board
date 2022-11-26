@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout/header::head">
+    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  </head>
+  <body>
+    <div th:replace="layout/top::header"></div>
+    <div class="container" style="max-width: 600px">
+      <div class="d-flex justify-content-center m-3">
+        <h2>Sign In</h2>
+      </div>
+      <form class="px-4 py-3" th:action="@{/user/login}" method="post">
+        <div class="form-group m-3">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name="email"
+                 placeholder="email@example.com">
+        </div>
+        <div class="form-group m-3">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password"
+                 placeholder="Password">
+        </div>
+
+        <!--          <label for="email">Email</label>:-->
+        <!--          <input type="text" id="email" name="email" autofocus="Email"/> <br/>-->
+        <!--          <label for="password">Password</label>:-->
+        <!--          <input type="password" id="password" name="password" autofocus="Password"/> <br/>-->
+
+        <!--          <label for="remember-me" style>Remember Me</label>-->
+        <!--          <input type="checkbox" id="remember-me" name="remember-me" />-->
+
+        <div class="d-flex justify-content-center m-3">
+          <input type="submit" class="btn btn-dark" value="로그인"/>
+        </div>
+      </form>
+    </div> <!-- /container -->
+    <div th:replace="layout/footer::footer"></div>
+  </body>
+</html>

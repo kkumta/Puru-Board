@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head th:replace="layout/header::head">
+    <title>My Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  </head>
+  <body>
+    <div th:replace="layout/top::header"></div>
+    <div class="container" style="max-width: 600px">
+      <div class="py-5 text-center">
+        <h2>My Page</h2>
+        <ul>
+          <li><a th:text="${userInfo.email}">email</a></li>
+          <li><a th:text="${userInfo.nickname}">nickname</a></li>
+          <li><a th:text="${userInfo.role}">role</a></li>
+        </ul>
+      </div>
+    </div> <!-- /container -->
+    <div th:replace="layout/footer::footer"></div>
+  </body>
+</html>
