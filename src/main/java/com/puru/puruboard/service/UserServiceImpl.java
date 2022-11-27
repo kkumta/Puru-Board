@@ -3,7 +3,6 @@ package com.puru.puruboard.service;
 import com.puru.puruboard.domain.User;
 import com.puru.puruboard.domain.UserRepository;
 import com.puru.puruboard.dto.CreateUserDto;
-import com.puru.puruboard.dto.CreateUserResult;
 import com.puru.puruboard.dto.UserInfo;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional
-    public CreateUserResult createUser(CreateUserDto signUpDto) throws Exception {
+    public UserInfo createUser(CreateUserDto signUpDto) throws Exception {
         
         User user = User.builder()
             .email(signUpDto.getEmail())
@@ -41,9 +40,10 @@ public class UserServiceImpl implements UserService {
         
         User result = userRepository.save(user);
         
-        return CreateUserResult.builder()
+        return UserInfo.builder()
             .email(result.getEmail())
             .nickname(result.getNickname())
+            .role(result.getRole())
             .build();
     }
     
