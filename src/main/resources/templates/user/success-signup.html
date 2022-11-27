@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head th:replace="layout/header::head">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Puru Board</title>
@@ -11,6 +11,11 @@
         <h2>Puru Board</h2>
         회원 가입 완료
       </div>
+      <ul class="list-group">
+        <li class="list-group-item" th:text="|이메일: ${userInfo.email}|"></li>
+        <li class="list-group-item" th:text="|닉네임: ${userInfo.nickname}|"></li>
+        <li class="list-group-item" th:text="|권한: ${userInfo.role}|"></li>
+      </ul>
     </div> <!-- /container -->
     <div th:replace="layout/footer::footer"></div>
   </body>
