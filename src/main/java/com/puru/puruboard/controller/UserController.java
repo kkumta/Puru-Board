@@ -4,11 +4,8 @@ import com.puru.puruboard.domain.User;
 import com.puru.puruboard.dto.CreateUserDto;
 import com.puru.puruboard.dto.UserInfo;
 import com.puru.puruboard.service.UserService;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,15 +30,17 @@ public class UserController {
     
     // 회원 가입
     @PostMapping
-    public String signUp(@Valid @ModelAttribute CreateUserDto signUpDto, BindingResult result)
+    public String signUp(@Valid @ModelAttribute CreateUserDto signUpDto, BindingResult result, Model model)
         throws Exception {
         
         if (result.hasErrors()) {
             return "user/signup";
         }
-        userService.createUser(new CreateUserDto(signUpDto.getEmail(), signUpDto.getPassword(),
+        UserInfo userInfo = userService.createUser(new CreateUserDto(signUpDto.getEmail(), signUpDto.getPassword(),
                                                  signUpDto.getNickname()));
-        return "user/success-sign-up";
+    
+        model.addAttribute("userInfo", userInfo);
+        return "user/success-signup";
     }
     
     // 로그인 폼
@@ -64,6 +63,6 @@ public class UserController {
         UserInfo userInfo = userService.getUserInfo(email);
         model.addAttribute("userInfo", userInfo);
         
-        return "user/my-page";
+        return "user/user-info";
     }
 }
