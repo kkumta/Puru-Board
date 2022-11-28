@@ -52,9 +52,8 @@ public class UserController {
     // 마이 페이지
     @GetMapping("/info")
     public String getMyInfo(Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = user.getEmail();
-        System.out.println("email = " + email);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         if (email.isEmpty()) {
             return "error";
