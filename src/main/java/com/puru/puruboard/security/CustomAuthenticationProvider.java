@@ -1,10 +1,13 @@
 package com.puru.puruboard.security;
 
+import com.puru.puruboard.domain.User;
 import com.puru.puruboard.security.service.UserContext;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.jaas.JaasAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,12 +29,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         
         UserContext userContext = (UserContext) userDetailsService.loadUserByUsername(email);
         
-        if (!passwordEncoder.matches(password, userContext.getPassword())) { // 이러면 안되나?
+        if (!passwordEncoder.matches(password, userContext.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
+
+        Authentication token = new UsernamePasswordAuthenticationToken(
+            userContext.getUsername(), null, userContext.getAuthorities());
         
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-            userContext.getUser(), null, userContext.getAuthorities());
+        System.out.println("token = " + token);
         
         return token;
     }
