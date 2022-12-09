@@ -35,11 +35,16 @@ public class Post extends BaseTimeEntity {
         this.title = title;
         this.author = author;
         this.content = content;
+        this.isDeleted = false;
     }
     
     public void update(String title, String author, String content) {
         this.title = title;
         this.author = author;
         this.content = content;
+    }
+    
+    public void delete() {
+        this.isDeleted = true;
     }
 }
