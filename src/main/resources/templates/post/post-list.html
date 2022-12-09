@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head th:replace="layout/header::head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Puru Board</title>
+  </head>
+  <body>
+    <div th:replace="layout/top::header"></div>
+    <div class="container" style="max-width: 600px">
+      <div class="py-5 text-center">
+        <h2>Puru Board</h2>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-outline-dark float-end"
+                  th:onclick="|location.href='@{/posts/create}'|"
+                  type="button">게시글 등록
+          </button>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="post : ${posts}">
+              <td><a th:href="@{/board/{postId}(postId=${post.id})}"
+                     th:text="${post.id}">id</a></td>
+              <td><a th:href="@{/board/{postId}(postId=${post.id})}"
+                     th:text="${post.title}">제목</a></td>
+              <td th:text="${post.author}">작성자</td>
+              <td th:text="${post.createdDate}">작성일</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> <!-- /container -->
+    <div th:replace="layout/footer::footer"></div>
+  </body>
+</html>
