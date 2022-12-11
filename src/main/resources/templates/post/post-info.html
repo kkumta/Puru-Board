@@ -11,6 +11,12 @@
       <div class="py-5 text-center">
         <h2>Puru Board</h2>
       </div>
+      <div th:if="${user} == true">
+        <button class="btn btn-outline-dark float-end"
+                th:onclick="|location.href='@{/posts/{postId}/edit}(postId=${post.id})'|"
+                type="button">수정
+        </button>
+      </div>
       <ul class="list-group">
         <li class="list-group-item" th:text="|Title: ${post.title}|"></li>
         <li class="list-group-item" th:text="|Author: ${post.author}|"></li>
