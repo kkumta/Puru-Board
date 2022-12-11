@@ -10,7 +10,7 @@ public interface PostService {
     
     Long createPost(CreatePostDto createPostDto);
     
-    Long updatePost(UpdatePostDto updatePostDto);
+    Long updatePost(Long postId, UpdatePostDto updatePostDto);
     
     void deletePost(Long id);
     
