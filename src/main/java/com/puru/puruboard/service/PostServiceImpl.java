@@ -40,8 +40,12 @@ public class PostServiceImpl implements PostService {
     
     @Override
     @Transactional
-    public Long updatePost(UpdatePostDto updatePostDto) {
-        return null;
+    public Long updatePost(Long postId, UpdatePostDto updatePostDto) {
+        
+        Post post = postRepository.findById(postId).orElseThrow(null);
+        post.update(updatePostDto.getTitle(), post.getAuthor(), updatePostDto.getContent());
+        
+        return postId;
     }
     
     @Override
