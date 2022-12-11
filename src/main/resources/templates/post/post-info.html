@@ -7,23 +7,41 @@
   <body>
     <div th:replace="layout/top::header"></div>
     <div th:replace="layout/category::header"></div>
-    <div class="container" style="max-width: 600px">
-      <div class="py-5 text-center">
-        <h2>Puru Board</h2>
-      </div>
-      <div th:if="${user} == true">
-        <button class="btn btn-outline-dark float-end"
-                th:onclick="|location.href='@{/posts/{postId}/edit}(postId=${post.id})'|"
-                type="button">수정
-        </button>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" th:text="|Title: ${post.title}|"></li>
-        <li class="list-group-item" th:text="|Author: ${post.author}|"></li>
-        <li class="list-group-item" th:text="|글 작성일: ${post.createdDate}|"></li>
-        <li class="list-group-item" th:text="|마지막 수정일: ${post.lastEditDate}|"></li>
-        <li class="list-group-item" th:text="|Content: ${post.content}|"></li>
+    <div class="container py-5">
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <button th:if="${user} == true"
+                  class="btn btn-outline-dark mb-4"
+                  th:onclick="|location.href='@{/posts/{postId}/update(postId=${postId})}'|"
+                  type="button">수정
+          </button>
+        </li>
       </ul>
+      <div class="text-center">
+        <h3 class="border-top" th:text="|${post.title}|">제목</h3>
+      </div>
+      <div class="d-flex bd-highlight mb-3 border-top border-bottom">
+        <div class="me-auto p-2 bd-highlight" th:text="|작성자 ${post.author}|">
+          작성자
+        </div>
+        <div class="p-2 bd-highlight" th:text="|작성일 ${post.createdDate}|">
+          작성일
+        </div>
+        <div class="p-2 bd-highlight" th:text="|수정일 ${post.lastEditDate}|">
+          최근 수정일
+        </div>
+      </div>
+      <div class="form-floating">
+        <textarea readonly class="form-control" style="height: 30em; resize: none;"
+                  th:text="|${post.content}|">내용</textarea>
+      </div>
+
+      <!-- 댓글 작성 기능 추가할 때 사용 예정 -->
+      <!--      <div class="form-floating">-->
+      <!--        <textarea class="form-control" placeholder="Leave a comment here"-->
+      <!--                  id="floatingTextarea"></textarea>-->
+      <!--        <label for="floatingTextarea">Comments</label>-->
+      <!--      </div>-->
     </div> <!-- /container -->
     <div th:replace="layout/footer::footer"></div>
   </body>
