@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout/header::head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Puru Board</title>
+  </head>
+  <body>
+    <div th:replace="layout/top::header"></div>
+    <div th:replace="layout/category::header"></div>
+    <div class="container">
+      <div class="py-5 text-center">
+        <h2>게시글 수정</h2>
+      </div>
+      <form action="" th:action th:object="${post}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}">
+          <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+             th:text="${err}">전체 오류 메시지</p>
+        </div>
+        <div>
+          <label for="title">Title</label>
+          <input type="text" id="title" th:field="*{title}" class="form-control"
+                 th:errorclass="field-error">
+          <div class="field-error" th:errors="*{title}" />
+        </div>
+        <div>
+          <label for="content">Content</label>
+          <input type="text" id="content" th:field="*{content}" class="form-control"
+                 th:errorclass="field-error">
+          <div class="field-error" th:errors="*{content}" />
+        </div>
+        <hr class="my-4">
+        <div class="row">
+          <div class="col">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">수정</button>
+          </div>
+          <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    th:onclick="|location.href='@{/board}'|"
+            type="button">취소</button>
+          </div>
+        </div>
+      </form>
+    </div> <!-- /container -->
+  </body>
+</html>
