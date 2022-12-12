@@ -7,6 +7,7 @@ import com.puru.puruboard.dto.CreatePostDto;
 import com.puru.puruboard.dto.PostListResponseDto;
 import com.puru.puruboard.dto.PostResponseDto;
 import com.puru.puruboard.dto.UpdatePostDto;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,8 +51,19 @@ public class PostServiceImpl implements PostService {
     
     @Override
     @Transactional
-    public void deletePost(Long id) {
-    
+    public void deletePost(Long postId) {
+        
+        Post post = postRepository.findById(postId).orElseThrow(null);
+        
+        // 현재 접속중인 유저의 닉네임
+        String nickname = userRepository.findByEmail(
+            SecurityContextHolder.getContext().getAuthentication().getName()).get().getNickname();
+        if (!post.getAuthor().equals(nickname)) { // 현재 접속중인 유저의 닉네임과 게시글 작성자의 닉네임이 다르다면 예외 처리
+            new Exception("유효하지 않은 접근입니다.");
+            return;
+        }
+        
+        post.delete();
     }
     
     @Override
@@ -74,6 +86,7 @@ public class PostServiceImpl implements PostService {
     public List<PostListResponseDto> findAllDesc() {
         List<PostListResponseDto> posts = postRepository.findAll().stream()
             .filter(p -> !p.getIsDeleted())
+            .sorted(Comparator.comparing(Post::getId).reversed()) // 역순 정렬
             .map(PostListResponseDto::new)
             .collect(Collectors.toList());
         
