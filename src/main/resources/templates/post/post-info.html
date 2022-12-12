@@ -12,6 +12,13 @@
         <li class="nav-item">
           <button th:if="${user} == true"
                   class="btn btn-outline-dark mb-4"
+                  th:onclick="|location.href='@{/posts/{postId}/delete(postId=${postId})}'|"
+                  type="button">삭제
+          </button>
+        </li>
+        <li class="nav-item">
+          <button th:if="${user} == true"
+                  class="btn btn-outline-dark mb-4"
                   th:onclick="|location.href='@{/posts/{postId}/update(postId=${postId})}'|"
                   type="button">수정
           </button>
