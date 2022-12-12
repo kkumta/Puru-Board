@@ -60,7 +60,6 @@ public class PostController {
         return "post/update-post";
     }
 
-
     // 게시글 수정
     @PostMapping("/posts/{postId}/update")
     public String updatePost(@PathVariable Long postId, @ModelAttribute UpdatePostDto updatePostDto) {
@@ -71,6 +70,13 @@ public class PostController {
     }
     
     // 게시글 삭제
+    @GetMapping("/posts/{postId}/delete")
+    public String deletePost(@PathVariable Long postId) {
+        
+        postService.deletePost(postId);
+        
+        return "redirect:/board";
+    }
     
     // 게시글 단건 조회
     @GetMapping("/board/{postId}")
