@@ -56,8 +56,8 @@ public class SecurityConfig {
             .antMatchers("/", "/user")
             .permitAll() // home,login 요청: 모두에게 허용
             .antMatchers("/user/info").hasRole("USER") // my-page에 관한 모든 요청: USER만 허용
-            .antMatchers(HttpMethod.GET, "/posts/**").permitAll() // posts에 관한 get 요청: 모두에게 허용
-            .antMatchers("/posts/**")
+            .antMatchers(HttpMethod.GET, "/board/**").permitAll() // posts 읽기에 관한 get 요청: 모두에게 허용
+            .antMatchers("/posts")
             .hasRole("USER") // posts에 관한 모든 요청: USER만 허용
             .anyRequest().authenticated()
             

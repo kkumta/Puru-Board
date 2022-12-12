@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout/header::head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Puru Board</title>
+  </head>
+  <body>
+    <div th:replace="layout/top::header"></div>
+    <div th:replace="layout/category::header"></div>
+    <div class="container">
+      <div class="py-5 text-center">
+        <h2>게시글 작성</h2>
+      </div>
+      <form action="" th:action th:object="${post}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}">
+          <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+             th:text="${err}">전체 오류 메시지</p>
+        </div>
+        <div>
+          <input type="text" id="title" th:field="*{title}" class="form-control"
+                 th:errorclass="field-error" placeholder="제목을 입력하세요">
+          <div class="field-error" th:errors="*{title}"/>
+        </div>
+        <hr class="my-4">
+        <div>
+          <textarea th:type="text" rows="20" id="content" th:field="*{content}"
+                    class="form-control"
+                    th:errorclass="field-error" placeholder="내용을 입력하세요"></textarea>
+          <div class="field-error" th:errors="*{content}"/>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-success mb-4 w-100" type="submit">작성</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-4 w-100"
+                    th:onclick="|location.href='@{/}'|"
+                    type="button">취소
+            </button>
+          </div>
+        </div>
+      </form>
+    </div> <!-- /container -->
+  </body>
+</html>
