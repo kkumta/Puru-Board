@@ -17,17 +17,21 @@
              th:text="${err}">전체 오류 메시지</p>
         </div>
         <div>
-          <label for="title">Title</label>
+          <label for="title">제목</label>
           <input type="text" id="title" th:field="*{title}" class="form-control"
                  th:errorclass="field-error">
-          <div class="field-error" th:errors="*{title}" />
+          <div class="field-error" th:errors="*{title}"/>
         </div>
+        <hr class="my-4">
         <div>
-          <label for="content">Content</label>
-          <input type="text" id="content" th:field="*{content}" class="form-control"
-                 th:errorclass="field-error">
-          <div class="field-error" th:errors="*{content}" />
+          <label for="title">내용</label>
+          <textarea th:type="text" rows="20" id="content" th:field="*{content}"
+                    class="form-control"
+                    th:errorclass="field-error"></textarea>
+          <div class="field-error" th:errors="*{content}"/>
         </div>
+
+
         <hr class="my-4">
         <div class="row">
           <div class="col">
