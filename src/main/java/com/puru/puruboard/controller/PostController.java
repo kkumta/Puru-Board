@@ -1,14 +1,16 @@
 package com.puru.puruboard.controller;
 
-import com.puru.puruboard.domain.Post;
+import com.puru.puruboard.domain.Reply;
 import com.puru.puruboard.domain.UserRepository;
 import com.puru.puruboard.dto.CreatePostDto;
 import com.puru.puruboard.dto.PostListResponseDto;
 import com.puru.puruboard.dto.PostResponseDto;
+import com.puru.puruboard.dto.ReplyResponseDto;
 import com.puru.puruboard.dto.UpdatePostDto;
 import com.puru.puruboard.service.PostService;
-import com.puru.puruboard.service.UserService;
+import com.puru.puruboard.service.ReplyService;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,10 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class PostController {
     
     private final PostService postService;
+    private final ReplyService replyService;
     private final UserRepository userRepository;
     
     // 게시글 작성 폼
@@ -59,11 +60,12 @@ public class PostController {
         
         return "post/update-post";
     }
-
+    
     // 게시글 수정
     @PostMapping("/posts/{postId}/update")
-    public String updatePost(@PathVariable Long postId, @ModelAttribute UpdatePostDto updatePostDto) {
-    
+    public String updatePost(@PathVariable Long postId,
+                             @ModelAttribute UpdatePostDto updatePostDto) {
+        
         postService.updatePost(postId, updatePostDto);
         
         return "redirect:/board/{postId}";
@@ -74,6 +76,7 @@ public class PostController {
     public String deletePost(@PathVariable Long postId) {
         
         postService.deletePost(postId);
+        // 해당 게시글의 댓글도 모두 삭제
         
         return "redirect:/board";
     }
@@ -84,15 +87,23 @@ public class PostController {
         PostResponseDto post = postService.findPost(postId);
         model.addAttribute("post", post);
         model.addAttribute("user", false);
-    
+        
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // authentication 검증
-        if (authentication != null && !AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
-            String curUserNickname = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getNickname();
+        if (authentication != null && !AnonymousAuthenticationToken.class.isAssignableFrom(
+            authentication.getClass())) {
+            String curUserNickname = userRepository.findByEmail(
+                    SecurityContextHolder.getContext().getAuthentication().getName()).get()
+                .getNickname();
             if (post.getAuthor().equals(curUserNickname)) {
                 model.addAttribute("user", true);
             }
+            
         }
+        
+        // 해당 게시글의 댓글 목록 조회
+        List<ReplyResponseDto> replyList = replyService.findAllByPostId(postId);
+        model.addAttribute("replyList", replyList);
         
         return "post/post-info";
     }
