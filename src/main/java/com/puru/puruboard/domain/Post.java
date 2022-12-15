@@ -1,10 +1,13 @@
 package com.puru.puruboard.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +32,9 @@ public class Post extends BaseTimeEntity {
     
     @Column
     private Boolean isDeleted;
+
+    @OneToMany(mappedBy = "post")
+    private List<Reply> replyList = new ArrayList<>();
     
     @Builder
     public Post(String title, String author, String content) {
