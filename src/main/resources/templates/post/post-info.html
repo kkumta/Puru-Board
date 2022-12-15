@@ -8,47 +8,87 @@
     <div th:replace="layout/top::header"></div>
     <div th:replace="layout/category::header"></div>
     <div class="container py-5">
-      <ul class="nav justify-content-end">
-        <li class="nav-item">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12 text-lg-end text-right">
           <button th:if="${user} == true"
                   class="btn btn-outline-dark mb-4"
                   th:onclick="|location.href='@{/posts/{postId}/delete(postId=${postId})}'|"
                   type="button">삭제
           </button>
-        </li>
-        <li class="nav-item">
           <button th:if="${user} == true"
                   class="btn btn-outline-dark mb-4"
                   th:onclick="|location.href='@{/posts/{postId}/update(postId=${postId})}'|"
                   type="button">수정
           </button>
-        </li>
-      </ul>
-      <div class="text-center">
-        <h3 class="border-top" th:text="|${post.title}|">제목</h3>
-      </div>
-      <div class="d-flex bd-highlight mb-3 border-top border-bottom">
-        <div class="me-auto p-2 bd-highlight" th:text="|작성자 ${post.author}|">
-          작성자
         </div>
-        <div class="p-2 bd-highlight" th:text="|작성일 ${post.createdDate}|">
-          작성일
-        </div>
-        <div class="p-2 bd-highlight" th:text="|수정일 ${post.lastEditDate}|">
-          최근 수정일
-        </div>
-      </div>
-      <div class="form-floating">
-        <textarea readonly class="form-control" style="height: 30em; resize: none;"
-                  th:text="|${post.content}|">내용</textarea>
       </div>
 
-      <!-- 댓글 작성 기능 추가할 때 사용 예정 -->
-      <!--      <div class="form-floating">-->
-      <!--        <textarea class="form-control" placeholder="Leave a comment here"-->
-      <!--                  id="floatingTextarea"></textarea>-->
-      <!--        <label for="floatingTextarea">Comments</label>-->
-      <!--      </div>-->
+      <div>
+        <div class="text-center mb-1">
+          <h2 class="" th:text="|${post.title}|">제목</h2>
+        </div>
+        <div class="d-flex bd-highlight mb-3 border-top border-bottom bg-secondary">
+          <div class="me-auto p-2 bd-highlight" th:text="| ${post.author}|">
+            작성자
+          </div>
+          <div class="p-2 bd-highlight" th:text="|작성일 ${post.createdDate}|">
+            작성일
+          </div>
+          <div class="p-2 bd-highlight" th:text="|수정일 ${post.lastEditDate}|">
+            최근 수정일
+          </div>
+        </div>
+        <div class="form-floating">
+        <textarea readonly class="form-control" style="height: 30em; resize: none;"
+                  th:text="|${post.content}|">내용</textarea>
+        </div>
+        <hr class="my-4">
+      </div>
+
+      <!-- 댓글 보기 -->
+      <div>
+        <div class="mb-1">
+          <h4>댓글</h4>
+        </div>
+        <br>
+        <div th:each="reply : ${replyList}">
+          <div class="d-flex bd-highlight border-top">
+            <div class="me-auto p-2 bd-highlight strong" style="font-weight: bold;"
+                 th:text="| ${reply.author}|">
+              작성자
+            </div>
+            <div class="p-2 bd-highlight" th:text="|작성일 ${reply.createdDate}|">
+              작성일
+            </div>
+            <div class="p-2 bd-highlight" th:text="|수정일 ${reply.lastEditDate}|">
+              수정일
+            </div>
+          </div>
+          <div class="form-floating">
+            <textarea readonly class="form-control" style="height: 10em; resize: none;"
+                      th:text="|${reply.content}|">내용</textarea>
+          </div>
+          <br>
+          <br>
+        </div>
+        <br>
+      </div>
+      <!-- 댓글 보기 끝 -->
+
+      <!-- 댓글 작성 -->
+      <form action="" th:action th:object="${post}" method="post">
+          <textarea th:type="text" rows="3" class="form-control" id="floatingTextarea"
+                    placeholder="Comments"></textarea>
+        <br>
+        <div class="row">
+          <div class="col-lg-12 col-sm-12 text-lg-end text-right">
+            <button class="btn btn-outline-success" type="submit">등록
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- 댓글 작성 끝 -->
+
     </div> <!-- /container -->
     <div th:replace="layout/footer::footer"></div>
   </body>
