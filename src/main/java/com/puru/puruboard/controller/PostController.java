@@ -3,6 +3,7 @@ package com.puru.puruboard.controller;
 import com.puru.puruboard.domain.Reply;
 import com.puru.puruboard.domain.UserRepository;
 import com.puru.puruboard.dto.CreatePostDto;
+import com.puru.puruboard.dto.CreateReplyDto;
 import com.puru.puruboard.dto.PostListResponseDto;
 import com.puru.puruboard.dto.PostResponseDto;
 import com.puru.puruboard.dto.ReplyResponseDto;
@@ -83,13 +84,13 @@ public class PostController {
     
     // 게시글 단건 조회
     @GetMapping("/board/{postId}")
-    public String readPost(@PathVariable Long postId, Model model) {
+    public String readPost(@PathVariable Long postId, Model model, @ModelAttribute("reply") CreateReplyDto createReplyDto) {
         PostResponseDto post = postService.findPost(postId);
         model.addAttribute("post", post);
         model.addAttribute("user", false);
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // authentication 검증
+        // 게시글 수정, 삭제 버튼 노출을 위한 authentication 검증
         if (authentication != null && !AnonymousAuthenticationToken.class.isAssignableFrom(
             authentication.getClass())) {
             String curUserNickname = userRepository.findByEmail(
@@ -98,7 +99,6 @@ public class PostController {
             if (post.getAuthor().equals(curUserNickname)) {
                 model.addAttribute("user", true);
             }
-            
         }
         
         // 해당 게시글의 댓글 목록 조회
