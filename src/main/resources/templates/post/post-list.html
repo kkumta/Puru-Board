@@ -9,7 +9,7 @@
     <div th:replace="layout/category::header"></div>
     <div class="container">
       <div class="py-5 text-center">
-        <h2 th:text="${boardName}">게시판</h2>
+        <h1 class="display-6" th:text="${boardName}">게시판</h1>
       </div>
       <div class="row">
         <div class="col">
@@ -32,9 +32,9 @@
           </thead>
           <tbody>
             <tr th:each="post : ${posts}">
-              <td><a th:href="@{/board/{postId}(postId=${post.id})}"
-                     th:text="${post.id}">id</a></td>
-              <td><a th:href="@{/board/{postId}(postId=${post.id})}"
+              <td><a th:text="${post.id}">id</a></td>
+              <td><a style="text-decoration:none;"
+                     th:href="@{/board/{postId}(postId=${post.id})}"
                      th:text="${post.title}">제목</a></td>
               <td th:text="${post.author}">작성자</td>
               <td th:text="${post.createdDate}">작성일</td>
