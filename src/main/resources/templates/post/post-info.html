@@ -76,8 +76,8 @@
       <!-- 댓글 보기 끝 -->
 
       <!-- 댓글 작성 -->
-      <form action="" th:action th:object="${post}" method="post">
-          <textarea th:type="text" rows="3" class="form-control" id="floatingTextarea"
+      <form th:action="@{/posts/__${post.id}__/reply/create}" th:object="${reply}" method="post">
+          <textarea th:type="text" rows="3" id="content" th:field="*{content}" class="form-control"
                     placeholder="Comments"></textarea>
         <br>
         <div class="row">
