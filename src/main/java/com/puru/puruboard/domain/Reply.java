@@ -1,6 +1,5 @@
 package com.puru.puruboard.domain;
 
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,12 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Entity
 @NoArgsConstructor
+@Entity
 public class Reply extends BaseTimeEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "reply_id")
     private Long id;
     
@@ -30,13 +29,8 @@ public class Reply extends BaseTimeEntity {
     @Column(nullable = false)
     private String author;
     
-    
     @Column(nullable = false)
     private String content;
-    
-    private LocalDateTime createdDate;
-    
-    private LocalDateTime lastEditDate;
     
     @Column
     private Boolean isDeleted;
@@ -46,6 +40,7 @@ public class Reply extends BaseTimeEntity {
         this.post = post;
         this.author = author;
         this.content = content;
+        this.isDeleted = false;
     }
     
     public void update(String author, String content) {
