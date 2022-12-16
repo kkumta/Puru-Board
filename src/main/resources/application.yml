@@ -1,5 +1,4 @@
-# 배포 시에 파일 내용이 변경될 예정임
-# H2 -> MySQL
+# 배포: MySQL
 
 spring:
   devtools:
@@ -7,22 +6,18 @@ spring:
       enabled: true
   thymeleaf:
     cache: false
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
 
   datasource:
-    url:  jdbc:h2:~/puruboard
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://puruboard.c7vxa3pl24ox.ap-northeast-2.rds.amazonaws.com:3306/puruboard
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: babybeb
+    password: ods030207
     generate-unique-name: false
 
   jpa:
-    datasource-platform: org.hibernate.dialect.H2Dialect
+    datasource-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: update # Spring Boot 서버가 시작될 때마다 테이블을 새로 만든다
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
