@@ -1,13 +1,13 @@
 package com.puru.puruboard.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,14 +15,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Post extends BaseTimeEntity {
+public class Reply extends BaseTimeEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "reply_id")
     private Long id;
     
-    @Column(nullable = false)
-    private String title;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
     
     @Column(nullable = false)
     private String author;
@@ -32,20 +34,16 @@ public class Post extends BaseTimeEntity {
     
     @Column
     private Boolean isDeleted;
-
-    @OneToMany(mappedBy = "post")
-    private List<Reply> replyList = new ArrayList<>();
     
     @Builder
-    public Post(String title, String author, String content) {
-        this.title = title;
+    public Reply(Post post, String author, String content) {
+        this.post = post;
         this.author = author;
         this.content = content;
         this.isDeleted = false;
     }
     
-    public void update(String title, String author, String content) {
-        this.title = title;
+    public void update(String author, String content) {
         this.author = author;
         this.content = content;
     }

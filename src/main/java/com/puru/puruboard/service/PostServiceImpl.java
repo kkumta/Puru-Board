@@ -74,6 +74,7 @@ public class PostServiceImpl implements PostService {
         }
         
         return PostResponseDto.builder()
+            .id(post.get().getId())
             .title(post.get().getTitle())
             .author(post.get().getAuthor())
             .content(post.get().getContent())
