@@ -11,7 +11,6 @@ import com.puru.puruboard.dto.UpdatePostDto;
 import com.puru.puruboard.service.PostService;
 import com.puru.puruboard.service.ReplyService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -88,9 +87,12 @@ public class PostController {
         PostResponseDto post = postService.findPost(postId);
         model.addAttribute("post", post);
         model.addAttribute("user", false);
-        
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    
+        // 해당 게시글의 댓글 목록 조회
+        List<ReplyResponseDto> replyList = replyService.findAllByPostId(postId);
+    
         // 게시글 수정, 삭제 버튼 노출을 위한 authentication 검증
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !AnonymousAuthenticationToken.class.isAssignableFrom(
             authentication.getClass())) {
             String curUserNickname = userRepository.findByEmail(
@@ -99,10 +101,15 @@ public class PostController {
             if (post.getAuthor().equals(curUserNickname)) {
                 model.addAttribute("user", true);
             }
+    
+            // 댓글 관리 버튼 노출
+            for (ReplyResponseDto replyResponseDto : replyList) {
+                if (replyResponseDto.getAuthor().equals(curUserNickname)) {
+                    replyResponseDto.changeIsMyReply();
+                }
+            }
         }
-        
-        // 해당 게시글의 댓글 목록 조회
-        List<ReplyResponseDto> replyList = replyService.findAllByPostId(postId);
+    
         model.addAttribute("replyList", replyList);
         
         return "post/post-info";
