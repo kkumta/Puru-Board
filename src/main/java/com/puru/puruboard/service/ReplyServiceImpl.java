@@ -58,20 +58,44 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional
     public void deleteReply(Long replyId) {
         Optional<Reply> reply = replyRepository.findById(replyId);
-    
+        
         if (reply.isEmpty()) {
             new Exception("존재하지 않는 댓글입니다.");
             return;
         }
-    
+        
         // 현재 접속중인 유저의 닉네임
         String nickname = userRepository.findByEmail(
             SecurityContextHolder.getContext().getAuthentication().getName()).get().getNickname();
-        if (!reply.get().getAuthor().equals(nickname)) { // 현재 접속중인 유저의 닉네임과 게시글 작성자의 닉네임이 다르다면 예외 처리
+        if (!reply.get().getAuthor()
+            .equals(nickname)) { // 현재 접속중인 유저의 닉네임과 댓글 작성자의 닉네임이 다르다면 예외 처리
             new Exception("유효하지 않은 접근입니다.");
             return;
         }
         
         reply.get().delete();
+    }
+    
+    @Override
+    @Transactional
+    public Long updateReply(Long replyId, CreateReplyDto dto) {
+        Optional<Reply> reply = replyRepository.findById(replyId);
+        
+        if (reply.isEmpty()) {
+            new Exception("존재하지 않는 댓글입니다.");
+            return null;
+        }
+        
+        // 현재 접속중인 유저의 닉네임
+        String nickname = userRepository.findByEmail(
+            SecurityContextHolder.getContext().getAuthentication().getName()).get().getNickname();
+        if (!reply.get().getAuthor()
+            .equals(nickname)) { // 현재 접속중인 유저의 닉네임과 댓글 작성자의 닉네임이 다르다면 예외 처리
+            new Exception("유효하지 않은 접근입니다.");
+            return null;
+        }
+        
+        reply.get().update(nickname, dto.getContent());
+        return replyId;
     }
 }

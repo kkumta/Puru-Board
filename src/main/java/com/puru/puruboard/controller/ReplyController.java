@@ -32,14 +32,23 @@ public class ReplyController {
     }
     
     // 댓글 수정
+    @PostMapping("/reply/{postId}/{replyId}/update")
+    public String updateReply(@PathVariable Long postId,
+                              @PathVariable Long replyId,
+                              @Valid @ModelAttribute CreateReplyDto createReplyDto,
+                              RedirectAttributes redirectAttributes) {
+    
+        System.out.println("updateReply");
+        System.out.println("createReplyDto = " + createReplyDto.getContent());
+        replyService.updateReply(replyId, createReplyDto);
+        redirectAttributes.addAttribute("postId", postId);
+    
+        return "redirect:/board/{postId}";
+    }
     
     // 댓글 삭제
-    // 게시글 삭제
     @GetMapping("/reply/{postId}/{replyId}/delete")
     public String deleteReply(@PathVariable Long postId, @PathVariable Long replyId) {
-    
-        System.out.println("postId = " + postId);
-        System.out.println("replyId = " + replyId);
         
         replyService.deleteReply(replyId);
     
