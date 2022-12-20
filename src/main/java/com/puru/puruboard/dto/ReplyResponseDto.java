@@ -13,11 +13,17 @@ public class ReplyResponseDto {
     private LocalDateTime createdDate;
     private LocalDateTime lastEditDate;
     
+    private Boolean isMyReply = false;
+    
     public ReplyResponseDto(Reply reply) {
         this.id = reply.getId();
         this.author = reply.getAuthor();
         this.content = reply.getContent();
         this.createdDate = reply.getCreatedDate();
         this.lastEditDate = reply.getLastEditDate();
+    }
+    
+    public void changeIsMyReply() {
+        isMyReply = true;
     }
 }
