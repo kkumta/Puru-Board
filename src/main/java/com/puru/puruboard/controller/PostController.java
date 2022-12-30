@@ -83,7 +83,7 @@ public class PostController {
     
     // 게시글 단건 조회
     @GetMapping("/board/{postId}")
-    public String readPost(@PathVariable Long postId, Model model, @ModelAttribute("reply") CreateReplyDto createReplyDto) {
+    public String readPost(@PathVariable Long postId, Model model, @ModelAttribute("createReplyDto") CreateReplyDto createReplyDto) {
         PostResponseDto post = postService.findPost(postId);
         model.addAttribute("post", post);
         model.addAttribute("user", false);
