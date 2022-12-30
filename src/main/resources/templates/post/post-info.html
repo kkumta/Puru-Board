@@ -53,7 +53,7 @@
         <div th:each="reply : ${replyList}">
           <div class="d-flex bd-highlight border-top">
             <div class="me-auto p-2 bd-highlight strong" style="font-weight: bold;"
-                 th:text="| ${reply.author}|">
+                 th:text="${reply.author}">
               작성자
             </div>
             <div class="p-2 bd-highlight" th:text="|작성일 ${reply.createdDate}|">
@@ -93,11 +93,10 @@
                     method="post">
                 <div class="form-group">
                                     <textarea th:type="text" class="form-control"
-                                              id="c"
                                               style="height: 10em;"
-                                              th:attr="placeholder=${reply.content}"
-                                              th:field="*{content}">내용</textarea>
+                                              th:text="*{content}" name="content">내용</textarea>
                 </div>
+                <br>
                 <div class="row">
                   <div class="col-lg-12 col-sm-12 text-lg-end text-right">
                     <button class="btn btn-outline-dark"
@@ -123,7 +122,8 @@
       <!-- 댓글 보기 끝 -->
 
       <!-- 댓글 작성 -->
-      <form th:action="@{/posts/__${post.id}__/reply/create}" th:object="${reply}" method="post">
+      <form th:action="@{/posts/__${post.id}__/reply/create}" th:object="${createReplyDto}"
+            method="post">
           <textarea th:type="text" rows="3" id="content" th:field="*{content}" class="form-control"
                     placeholder="Comments"></textarea>
         <br>
